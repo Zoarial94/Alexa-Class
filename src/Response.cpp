@@ -76,7 +76,7 @@ std::string Alexa::Response::getResponse() {
 	std::stringstream ssjson;
 	pt::json_parser::write_json(ssjson, json);
 	ss << ssjson.str().length() << "\r\n\r\n" << ssjson.str();
-	std::cout << "==========RESPONSE==========\n" << ss.str(); 
+	//std::cout << "==========RESPONSE==========\n" << ss.str(); 
 	return ss.str();
 }
 
