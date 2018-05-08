@@ -1,0 +1,53 @@
+#
+# THIS IS A NORMAL MAKEFILE
+#
+
+CXX = g++
+SRCDIR = src
+BUILDDIR = build
+INCDIR = include
+TARGET = bin/main
+
+SRCEXT = cpp
+INCEXT = hpp
+SOURCES = $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
+HEADERS = $(shell find $(INCDIR) -type f -name *.$(INCEXT))
+LIB = -lboost_system -lboost_thread -lboost_filesystem -lboost_chrono -lssl -lcrypto -lpthread -lboost_atomic -lboost_date_time
+LIBDIR = 
+CXXFLAGS = -Wall  
+INC = -I include/ -I ~/Simple-Web-Server/ 
+
+#Compile Target
+$(TARGET): $(OBJECTS)
+	@echo " Linking..."
+	$(CXX) $^ -o $(TARGET) $(LIB) $(LIBDIR)
+
+#Include dependencies which are created
+-include $(OBJECTS:.o=.d)
+
+#Create object files
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) $(BUILDDIR)/%.d
+#Make build directory
+	@mkdir -p $(BUILDDIR)
+#Compile object
+	$(CXX) $(CXXFLAGS) $(INC) -c -o $@ $<
+#Make dependency list/object
+	$(CXX) $(CXXFLAGS) $(INC) -MM $< > $(BUILDDIR)/$*.d
+#Fancy deleting/copying
+#Handles no longer existing files
+	@cp -f $(BUILDDIR)/$*.d $(BUILDDIR)/$*.d.tmp
+	@sed -e 's/.*://' -e 's/\\$$//' < $(BUILDDIR)/$*.d.tmp | fmt -1 | \
+	  sed -e 's/^ *//' -e 's/$$/:/' >> $(BUILDDIR)/$*.d
+	@rm -f $(BUILDDIR)/$*.d.tmp
+
+#Prevents failure if dependency does not exist
+$(BUILDDIR)/%.d: ;
+.PRECIOUS: $(DEPDIR)/%.d
+
+#Clean
+clean:
+	@echo " Cleaning..."; 
+	$(RM) -r $(BUILDDIR) $(TARGET)
+
+.PHONY: clean

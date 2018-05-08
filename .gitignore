@@ -1,1 +1,7 @@
-test/example.cpp
+AlexaSkill/
+bin/
+build/
+*.pem
+oldMakefile
+/src/main.cpp
+Makefile
