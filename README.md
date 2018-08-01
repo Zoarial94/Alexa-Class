@@ -18,6 +18,8 @@ This class is lightly tested and the main purpose is to get more familiar with c
   * Standalone Asio works too
 * OpenSSL
 
+> With my setup, OpenSSL 1.1.0 and boost 1.62.0 are used
+
 ### Usage 
 
 See test/example.cpp for basic usage
@@ -67,20 +69,24 @@ skill.intents["TestTalking"]
 ```
 * This will create an item in a map/dictionary
 
+
 ```cpp
 [](std::shared_ptr<Alexa::Request> request, std::shared_ptr<Alexa::Response> response)
 ```
 * This creates a lambda function with `request` and `response` as arguments
+
 
 ```cpp
 response->speech("Talking has been tested");
 ```
 * This takes the `response` argument and calls the function `speech()` More information on these function will be provided below
 
+
 ```cpp 
 response->simpleCard("Testing", "Talking has been tested");
 ```
 * This takes the `response` argument and calls the function `simpleCard()`
+
 
 #### Start the Server
 
@@ -89,7 +95,35 @@ skill.start();
 ```
 This simply starts the server by joining the server to a thread.
 
+### The Request Class
+
+This class is for getting infomation from the request
+
+---
+
+```cpp
+std::string getAppId();
+```
+* Returns the application id used for verification
+
+```cpp
+std::string getType();
+```
+* Returns the type of request from amazon (IntentRequest, LaunchRequest, SessionEndedRequest, etc)
+> [More info on requests](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#session-object) (Scroll up slightly)
+
+> [More info on what the request class contains](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#session-object)
+
+```cpp
+std::string getIntent();
+```
+* Gets the name of the intent **IF** the request is a type `IntentRequest`
+
 ### The Response Class
+
+This is what is used to make alexa respond
+
+---
 
 #### Speech
 
@@ -102,18 +136,18 @@ void speech(std::string s);
 ```
 * Alexa will attempt to say what is given
 * `std::string s`
-  * A string representation of what alexa will respond with
+  * A string of what alexa will respond with
 
 ```cpp
 void ssml(std::string s);
 ```
 * Alexa will attpempt to say what is given
 * `std::string s`
-  * A string representation of what alexa will respond with formatted in [SSML](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html) 
+  * A string of what alexa will respond with formatted in [SSML](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html) 
 
 #### Card
 
-These functions affect the card the can show in the alexa app
+These functions affect the card that can show in the alexa app
 
 ---
 
@@ -134,3 +168,52 @@ void standardCard(std::string title, std::string text, std::string image);
   * Title of the card
 * `std::string text`
   * The text displayed in the card
+* `std::string image`
+  * The link to an image to be diplayed on the card
+  
+```cpp
+void standardCard(std::string title, std::string text, std::string small, std::string large);
+```
+* Creates a standard card on the dashboard of the alexa app
+* `std::string title`
+  * Title of the card
+* `std::string text`
+  * The text displayed in the card
+* `std::string small`
+  * The link to a small image to be diplayed on the card
+* `std::string large`
+  * The link to a large image to be diplayed on the card
+  
+> [More info on cards](https://developer.amazon.com/docs/custom-skills/include-a-card-in-your-skills-response.html#create-a-home-card-to-display-text-and-an-image)
+
+> [Info on image sizes](https://developer.amazon.com/docs/custom-skills/include-a-card-in-your-skills-response.html#image_size)
+
+### Reprompting
+
+Alexa reprompting for a answer
+
+---
+
+```cpp
+void reprompt(std::string s);
+```
+* Makes a reprompt saying when alexa does not understand the user's speech
+* `std::string s`
+  * A string of what alexa will reprompt with
+  
+```cpp
+void reprompt(std::string s);
+```
+* Makes a reprompt saying when alexa does not understand the user's speech
+* `std::string s`
+  * A string of what alexa will reprompt with formatted in [SSML](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html) 
+  
+### Session
+
+```cpp
+void shouldEndSession(bool b);
+```
+* `bool b`
+  * Whether to not this response should end the session
+  
+> [More info on what the response classes affects](https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html#response-object)
