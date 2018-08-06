@@ -8,7 +8,8 @@ void Alexa::Request::readJson(std::istream& raw) {
 	pt::read_json(raw, mJson);
 	std::stringstream ss;
 	pt::json_parser::write_json(ss, mJson);
-	//std::cout << "JSON HAS BEEN READ: " << ss.str() << std::endl;
+	//print raw data for testing/debugging
+	//std::cout << std::endl << std::endl << ss.str() << std::endl << std::endl;
 }
 
 std::string Alexa::Request::getAppId() {

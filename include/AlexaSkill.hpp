@@ -82,7 +82,6 @@ namespace Alexa {
 		/**
 			Returns the whole response to be sent. Header and body of the HTTP response.
 		
-
 			@return - Returns a json formatted string of all the information provided to be sent back to Alexa
 		*/
 		std::string getResponse();
@@ -163,8 +162,10 @@ namespace Alexa {
 
 			certificate - The path (absolute or relative) to the certificate file for HTTPS verification
 			privateKey - The path to the private key file for HTTPS verification
+			port - The port to listen on
 		*/
 		std::string applicationId, path, certificate, privateKey;
+		int port;
 
 		//Pointer to Request object
 		std::shared_ptr<Request> alexaRequest;
@@ -182,6 +183,19 @@ namespace Alexa {
 			@param key - The path to the private key used in privateKey
 		*/
 		AlexaSkill(std::string appId, std::string path, std::string cert, std::string key);
+		
+		/**
+			Constructor
+			Sets alexaRequest and alexaResponse to empty objects
+
+			@param appId - The id used in applicationId
+			@param path - The path used in path
+			@param cert - The path to the certificate used in certificate
+			@param key - The path to the private key used in privateKey
+			@param port - The port number to listen to
+		*/
+		AlexaSkill(std::string appId, std::string path, std::string cert, std::string key, int port);
+		
 		//Where intent names are mapped to functions
 		//Functions return nothing and have a Request object and a Response object as the arguments
 		std::map<std::string, std::function<void(std::shared_ptr<Request>, std::shared_ptr<Response>)>> intents;

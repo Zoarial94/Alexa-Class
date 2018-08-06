@@ -2,6 +2,7 @@ AlexaSkill/
 bin/
 build/
 *.pem
+*.cert
 oldMakefile
-/src/main.cpp
+*main.cpp
 Makefile

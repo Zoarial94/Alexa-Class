@@ -16,7 +16,7 @@ namespace pt = boost::property_tree;
 void Alexa::AlexaSkill::setupServer() {
 	server = std::make_unique<HttpsServer>(certificate, privateKey);
 	//std::cout << "Server has cert and key" << std::endl;
-	server->config.port = 443;
+	server->config.port = port;
 	//std::cout << "Port has been set" << std::endl;
 
 	server->default_resource["GET"] = [](std::shared_ptr<HttpsServer::Response> response, std::shared_ptr<HttpsServer::Request> request) {
@@ -48,9 +48,10 @@ void Alexa::AlexaSkill::setupServer() {
 }
 
 void Alexa::AlexaSkill::start() {
+	setupServer();
 	std::thread server_thread([this]() {
-		// Start server
-		server->start();
-	});
+			// Start server
+			server->start();
+			});
 	server_thread.join();
 }
