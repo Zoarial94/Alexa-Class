@@ -18,7 +18,7 @@ This class is lightly tested and the main purpose is to get more familiar with c
   * Standalone Asio works too
 * OpenSSL
 
-> With my setup, OpenSSL 1.1.0 and boost 1.62.0 are used
+> With my setup, OpenSSL 1.1.0, boost 1.62.0 and g++-6 are used
 
 ### Usage 
 
