@@ -6,7 +6,7 @@ This class is lightly tested and the main purpose is to get more familiar with c
 
 ## Prerequisite
 
-* Port 443 on must be configured to point to the computer hosting this server
+* Port forwarding must be used to have incomming connetions from 443 point to 8080 (Or other configured port) on the server
 * [Amazon Developer account](https://developer.amazon.com/alexa)
 * A [skill](https://developer.amazon.com/alexa/console/ask) with an endpoint pointing to the server
   * It is possible to use [noip](noip.com) to create a URL for the skill to use
@@ -29,7 +29,7 @@ See test/example.cpp for basic usage
 #### Initialize Class
 
 ```cpp
-Alexa::AlexaSkill skill(ApplicationID, path, certificate, privateKey);
+Alexa::AlexaSkill skill(ApplicationID, path, certificate, privateKey, port);
 ```
 The above is how one would first initialize the class.
 
@@ -42,6 +42,8 @@ This will be put in place of `ApplicationID`.
 * To use a custom endpoint for a skill a self signed certificate must be uploaded for security purposes. `certificate` is the path to this certificate. More information on this can be found [here](https://developer.amazon.com/docs/custom-skills/configure-web-service-self-signed-certificate.html).
 
 * `privateKey`is the path to the key created in pair with the certificate above.
+
+* `port` is optional. Default it 8080.
 
 #### Configure Server
 
