@@ -13,7 +13,7 @@ This class is lightly tested and the main purpose is to get more familiar with c
 
 ### Dependencies
 
-* [eidheim/Simple-Web-Server](https://github.com/eidheim/Simple-Web-Server)
+* [eidheim/Simple-Web-Server](https://github.com/eidheim/Simple-Web-Server) (Placed in `~/`)
 * Boost - Used for Asio and property_tree
   * Standalone Asio works too
 * OpenSSL
